@@ -98,3 +98,47 @@ definitions:
         type: string
       Name:
         type: integer
+  /directories/lookup/{profile}/snom-v2:
+    get:
+      summary: Search for contacts with Snom Phones new version
+      description: |
+        The `lookup` query will return a list of result matching the searched term
+        formated for Snom Phones. The results will be retrieved from a lookup query to
+        wazo-dird.
+      operationId: snom_lookup
+      tags:
+      - snom
+      - directories
+      produces:
+      - text/xml
+      responses:
+        '200':
+          description: A list of contacts
+          schema:
+            $ref: '#/definitions/tbook'
+        '400':
+          $ref: '#/responses/LimitOffsetInvalid'
+        '404':
+          $ref: '#/responses/ProfileInvalid'
+        '503':
+          $ref: '#/responses/AnotherServiceUnavailable'
+      parameters:
+      - $ref: '#/parameters/Profile'
+      - $ref: '#/parameters/XivoUserUUID'
+      - $ref: '#/parameters/Term'
+      - $ref: '#/parameters/Limit16'
+      - $ref: '#/parameters/Offset'
+      - $ref: '#/parameters/AcceptLanguage'
+definitions:
+  tbook:
+    properties:
+      item:
+        type: array
+        items:
+          $ref: '#/definitions/item'
+  item:
+    properties:
+      name:
+        type: string
+      number:
+        type: string

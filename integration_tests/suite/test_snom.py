@@ -14,6 +14,7 @@ from .helpers.base import (
 from .helpers.wait_strategy import PhonedEverythingUpWaitStrategy
 
 VENDOR = 'snom'
+VENDOR_V2 = 'snom-v2'
 
 
 class TestSnom(BasePhonedIntegrationTest):
@@ -276,6 +277,85 @@ class TestSnom(BasePhonedIntegrationTest):
     def test_that_lookup_return_error_when_no_term(self):
         response = self.get_lookup_result(
             vendor=VENDOR,
+            xivo_user_uuid=USER_1_UUID,
+            profile=DEFAULT_PROFILE,
+        )
+        assert_that(response.status_code, equal_to(400))
+
+    # Lookup V2
+
+    def test_that_v2_lookup_return_no_error_when_query_ssl(self):
+        response = self.get_ssl_lookup_result(
+            vendor=VENDOR_V2,
+            xivo_user_uuid=USER_1_UUID,
+            profile=DEFAULT_PROFILE,
+            term=VALID_TERM,
+        )
+        assert_that(response.status_code, equal_to(200))
+        assert_that(
+            response.text,
+            equal_to(
+                dedent(
+                    """\
+        <?xml version="1.0" encoding="utf-8"?>
+            <tbook complete="true">
+                <item context="active" type="colleagues">
+                    <name>Test User 1</name>
+                    <number>0123456789</number>
+                </item>
+                <item context="active" type="colleagues">
+                    <name>Test User 2</name>
+                    <number>9876543210</number>
+                </item>
+            </tbook>"""
+                )
+            ),
+        )
+
+    def test_that_v2_lookup_return_no_entries_when_no_results(self):
+        response = self.get_ssl_lookup_result(
+            vendor=VENDOR_V2,
+            xivo_user_uuid=USER_1_UUID,
+            profile=DEFAULT_PROFILE,
+            term='no-result',
+        )
+        assert_that(response.status_code, equal_to(200))
+        assert_that(
+            response.text,
+            equal_to(
+                dedent(
+                    """\
+        <?xml version="1.0" encoding="utf-8"?>
+            <tbook complete="true">
+            </tbook>"""
+                )
+            ),
+        )
+
+    def test_that_v2_lookup_return_no_error_when_query(self):
+        response = self.get_lookup_result(
+            vendor=VENDOR_V2,
+            xivo_user_uuid=USER_1_UUID,
+            profile=DEFAULT_PROFILE,
+            term=VALID_TERM,
+        )
+        assert_that(response.status_code, equal_to(200))
+
+    def test_that_v2_lookup_return_error_when_no_xivo_user_uuid(self):
+        response = self.get_lookup_result(
+            vendor=VENDOR_V2, profile=DEFAULT_PROFILE, term=VALID_TERM
+        )
+        assert_that(response.status_code, equal_to(400))
+
+    def test_that_v2_lookup_return_error_when_invalid_user_uuid(self):
+        response = self.get_lookup_result(
+            vendor=VENDOR_V2, profile='a', xivo_user_uuid='invalid', term=VALID_TERM
+        )
+        assert_that(response.status_code, equal_to(404))
+
+    def test_that_v2_lookup_return_error_when_no_term(self):
+        response = self.get_lookup_result(
+            vendor=VENDOR_V2,
             xivo_user_uuid=USER_1_UUID,
             profile=DEFAULT_PROFILE,
         )

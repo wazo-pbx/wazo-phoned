@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tbook complete="true">
+{% for result in results -%}
+  <item context="active" type="colleagues">
+    <name>{{ result.name|e }}</name>
+    <number>{{ result.number|e }}</number>
+  </item>
+  {% endfor -%}
+</tbook>
