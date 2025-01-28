@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <SnomIPPhoneMenu>
+ <Title>{{ gettext('Wazo Directory') }}</Title>
 {% for result in results -%}
  <MenuItem name="{{ result.name|e }}">
   <Url>snom://mb_nop#numberdial={{ result.number|e }}</Url>
+  <ExtraText>{{ result.number|e }}</ExtraText>
  </MenuItem>
 {% else -%}
  <MenuItem name="{{ gettext('No entries') }}">
