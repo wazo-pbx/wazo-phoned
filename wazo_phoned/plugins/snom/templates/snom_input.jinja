@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <SnomIPPhoneInput>
- <Title>{{ gettext('Wazo Search') }}</Title>
- <Prompt>{{ gettext('Name or number:') }}</Prompt>
- <URL>{{ base_url|e }}</URL>
+ <Url>{{ base_url|e }}?xivo_user_uuid={{ user_uuid|e }}&term=__X__</Url>
  <InputItem>
   <DisplayName>{{ gettext('Name or number') }}</DisplayName>
-  <QueryStringParam>xivo_user_uuid={{ user_uuid|e }}&amp;term</QueryStringParam>
+  <InputToken>__X__</InputToken>
   <DefaultValue />
-  <InputFlags>A</InputFlags>
+  <InputFlags>a</InputFlags>
  </InputItem>
 </SnomIPPhoneInput>

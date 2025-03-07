@@ -54,14 +54,12 @@ class TestSnom(BasePhonedIntegrationTest):
                     f"""\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneInput>
-         <Title>Wazo Search</Title>
-         <Prompt>Name or number:</Prompt>
-         <URL>https://127.0.0.1:{self.service_port(9499, 'phoned')}/0.1/directories/lookup/{DEFAULT_PROFILE}/snom</URL>
+         <Url>https://127.0.0.1:{self.service_port(9499, 'phoned')}/0.1/directories/lookup/{DEFAULT_PROFILE}/snom?xivo_user_uuid={USER_1_UUID}&term=__X__</Url>
          <InputItem>
           <DisplayName>Name or number</DisplayName>
-          <QueryStringParam>xivo_user_uuid={USER_1_UUID}&amp;term</QueryStringParam>
+          <InputToken>__X__</InputToken>
           <DefaultValue />
-          <InputFlags>A</InputFlags>
+          <InputFlags>a</InputFlags>
          </InputItem>
         </SnomIPPhoneInput>"""
                 )
@@ -97,14 +95,18 @@ class TestSnom(BasePhonedIntegrationTest):
                     """\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Wazo Directory</Title>
         <MenuItem name="Test User1">
           <Url>snom://mb_nop#numberdial=0033123456789</Url>
+          <ExtraText>0033123456789</ExtraText>
          </MenuItem>
         <MenuItem name="Test User1 (mobile)">
           <Url>snom://mb_nop#numberdial=5555555555</Url>
+          <ExtraText>5555555555</ExtraText>
          </MenuItem>
         <MenuItem name="Test User2">
           <Url>snom://mb_nop#numberdial=1000</Url>
+          <ExtraText>1000</ExtraText>
          </MenuItem>
         </SnomIPPhoneMenu>"""
                 )
@@ -126,6 +128,7 @@ class TestSnom(BasePhonedIntegrationTest):
                     """\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Wazo Directory</Title>
         <MenuItem name="No entries">
          </MenuItem>
         </SnomIPPhoneMenu>"""
@@ -149,8 +152,10 @@ class TestSnom(BasePhonedIntegrationTest):
                     f"""\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Wazo Directory</Title>
         <MenuItem name="Test User1">
           <Url>snom://mb_nop#numberdial=0033123456789</Url>
+          <ExtraText>0033123456789</ExtraText>
          </MenuItem>
         <SoftKeyItem>
         <Label>NextPage</Label>
@@ -181,8 +186,10 @@ class TestSnom(BasePhonedIntegrationTest):
                     f"""\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Wazo Directory</Title>
         <MenuItem name="Test User1 (mobile)">
           <Url>snom://mb_nop#numberdial=5555555555</Url>
+          <ExtraText>5555555555</ExtraText>
          </MenuItem>
         <SoftKeyItem>
         <Label>PrevPage</Label>
@@ -216,8 +223,10 @@ class TestSnom(BasePhonedIntegrationTest):
                     f"""\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Wazo Directory</Title>
         <MenuItem name="Test User2">
           <Url>snom://mb_nop#numberdial=1000</Url>
+          <ExtraText>1000</ExtraText>
          </MenuItem>
         <SoftKeyItem>
         <Label>PrevPage</Label>
@@ -245,6 +254,7 @@ class TestSnom(BasePhonedIntegrationTest):
                     """\
         <?xml version="1.0" encoding="UTF-8" ?>
         <SnomIPPhoneMenu>
+         <Title>Répertoire Wazo</Title>
         <MenuItem name="Aucune entrée">
          </MenuItem>
         </SnomIPPhoneMenu>"""
